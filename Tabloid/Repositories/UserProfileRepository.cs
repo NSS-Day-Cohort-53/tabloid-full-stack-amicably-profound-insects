@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using Tabloid.Models;
 using Tabloid.Utils;
 
@@ -51,6 +52,57 @@ namespace Tabloid.Repositories
                     reader.Close();
 
                     return userProfile;
+                }
+            }
+        }
+
+        public List<UserProfile> GetAll()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT up.Id AS upId,
+                                               DisplayName,
+                                               FirstName,
+                                               LastName,
+                                               Email,
+                                               CreateDateTime,
+                                               ImageLocation,
+                                               UserTypeId,
+                                               Name
+                                          FROM UserProfile up
+                                               JOIN UserType ut ON ut.Id = UserTypeId
+                                         ORDER BY DisplayName
+                                         ";
+                    var reader = cmd.ExecuteReader();
+
+                    var users = new List<UserProfile>();
+
+                    while (reader.Read())
+                    {
+                        var user = new UserProfile()
+                        {
+                            Id = DbUtils.GetInt(reader, "upId"),
+                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            UserType = new UserType()
+                            {
+                                Id = DbUtils.GetInt(reader, "UserTypeId"),
+                                Name = DbUtils.GetString(reader, "Name"),
+                            }
+                        };
+
+                        users.Add(user);
+                    }
+                    return users;
                 }
             }
         }
