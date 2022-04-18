@@ -4,6 +4,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 import UserProfilesList from "./userProfiles/UserProfilesList";
+import UserProfileDetails from "./userProfiles/UserProfileDetails";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -13,8 +14,12 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/userprofiles">
+        <Route exact path="/userprofiles">
           {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/userprofiles/details/:id">
+          {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
