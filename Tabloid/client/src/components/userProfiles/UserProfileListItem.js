@@ -12,7 +12,10 @@ const UserProfileListItem = ({ profile, getProfiles }) => {
   const handleShow = () => setShow(true);
 
   const deactivate = () => {
-    deactivateUserProfile(profile).then(() => getProfiles());
+    deactivateUserProfile(profile).then(() => {
+      getProfiles();
+      handleClose();
+    });
   };
 
   return (
@@ -63,7 +66,6 @@ const UserProfileListItem = ({ profile, getProfiles }) => {
             <Button
               color="danger"
               onClick={() => {
-                handleClose();
                 deactivate();
               }}
             >
