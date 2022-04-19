@@ -41,3 +41,24 @@ export const getUserProfile = (id) => {
     });
   });
 };
+
+export const deactivateUserProfile = (profile) => {
+  return getToken().then((token) => {
+    return fetch(`${baseUrl}/deactivate/${profile.id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    }).then((res) => {
+      if (res.ok) {
+        return res.status;
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to deactivate a user profile."
+        );
+      }
+    });
+  });
+};
