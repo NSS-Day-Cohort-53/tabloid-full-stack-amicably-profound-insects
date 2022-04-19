@@ -61,11 +61,15 @@ namespace Tabloid.Controllers
                 userProfile);
         }
 
-        [HttpPost("deactivate/{id}")]
-        public IActionResult Deactivate(int id)
+        [HttpPut("deactivate/{id}")]
+        public IActionResult Deactivate(int id, UserProfile profile)
         {
             try
             {
+                if(id != profile.Id)
+                {
+                    return BadRequest();
+                }
                 _userProfileRepository.Deactivate(id);
                 return NoContent();
             }
