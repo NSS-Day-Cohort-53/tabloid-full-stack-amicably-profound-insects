@@ -5,8 +5,12 @@ import { getAllTags } from "../modules/tagManager";
 export default function TagList() {
   const [ tags, setTags ] = useState([]);
 
+  const getTags = () => {
+      getAllTags().then((tags) => setTags(tags));
+  }
+
   useEffect(() => {
-    getAllTags().then(setTags);
+    getTags();
   }, []);
 
   return (
