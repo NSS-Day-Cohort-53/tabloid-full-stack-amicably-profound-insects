@@ -2,13 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getUserProfile } from "../../modules/UserProfileManager";
 import avatar from "../../images/quill-logo.png";
+import { useHistory } from "react-router-dom";
 
 const UserProfileDetails = () => {
   const [profile, setProfile] = useState({});
   const { id } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
-    getUserProfile(id).then(setProfile);
+    getUserProfile(id).then((resp2) => {
+      if (resp2 === 404) {
+        history.push("/userprofiles/details/unknown");
+      } else {
+        setProfile(resp2);
+      }
+    });
   }, []);
 
   if (!profile) {

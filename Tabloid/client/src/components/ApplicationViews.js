@@ -18,7 +18,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
         </Route>
 
-        <Route path="/userprofiles/details/:id">
+        <Route path="/userprofiles/details/:id(\d)">
           {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
         </Route>
 
@@ -29,6 +29,8 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/register">
           <Register />
         </Route>
+
+        <Route>404 Not Found</Route>
       </Switch>
     </main>
   );

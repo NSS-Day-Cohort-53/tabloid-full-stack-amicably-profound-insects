@@ -31,6 +31,8 @@ export const getUserProfile = (id) => {
     }).then((res) => {
       if (res.ok) {
         return res.json();
+      } else if (res.status === 404) {
+        return res.status;
       } else {
         throw new Error(
           "An unknown error occurred while trying to get a user profile."
