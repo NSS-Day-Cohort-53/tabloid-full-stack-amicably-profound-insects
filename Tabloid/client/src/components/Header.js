@@ -35,6 +35,9 @@ export default function Header({ isLoggedIn }) {
                   </NavLink>
                 </NavItem>
                 <NavItem>
+              <NavLink tag={RRNavLink} to="/tag">Tag Management</NavLink>
+            </NavItem>
+                <NavItem>
                   <a
                     aria-current="page"
                     className="nav-link"

@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
+import TagList from "./TagList";
 import UserProfilesList from "./userProfiles/UserProfilesList";
 import UserProfileDetails from "./userProfiles/UserProfileDetails";
 
@@ -14,6 +15,9 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
         </Route>
 
+        <Route path="/tag" exact>
+          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
+        </Route>       
         <Route exact path="/userprofiles">
           {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
         </Route>
