@@ -60,5 +60,19 @@ namespace Tabloid.Controllers
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
         }
+
+        [HttpPost("deactivate/{id}")]
+        public IActionResult Deactivate(int id)
+        {
+            try
+            {
+                _userProfileRepository.Deactivate(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
