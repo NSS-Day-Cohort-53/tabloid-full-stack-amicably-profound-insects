@@ -4,9 +4,10 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 import TagList from "./TagList";
+import UserProfilesList from "./userProfiles/UserProfilesList";
+import UserProfileDetails from "./userProfiles/UserProfileDetails";
 
 export default function ApplicationViews({ isLoggedIn }) {
-
   return (
     <main>
       <Switch>
@@ -15,7 +16,14 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
 
         <Route path="/tag" exact>
-          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}       
+          {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
+        </Route>       
+        <Route exact path="/userprofiles">
+          {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/userprofiles/details/:id(\d+)">
+          {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
@@ -25,7 +33,9 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/register">
           <Register />
         </Route>
+
+        <Route>404 Not Found</Route>
       </Switch>
     </main>
   );
-};
+}
