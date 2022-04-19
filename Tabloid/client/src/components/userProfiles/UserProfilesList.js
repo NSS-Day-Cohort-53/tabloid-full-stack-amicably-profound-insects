@@ -28,7 +28,11 @@ const UserProfilesList = () => {
         </thead>
         <tbody>
           {profiles.map((profile) => (
-            <UserProfileListItem profile={profile} key={profile.id} />
+            <UserProfileListItem
+              profile={profile}
+              key={profile.id}
+              getProfiles={getProfiles}
+            />
           ))}
         </tbody>
       </Table>
