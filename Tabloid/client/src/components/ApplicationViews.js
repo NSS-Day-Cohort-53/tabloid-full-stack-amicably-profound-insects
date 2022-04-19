@@ -3,14 +3,23 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
+import UserProfilesList from "./userProfiles/UserProfilesList";
+import UserProfileDetails from "./userProfiles/UserProfileDetails";
 
 export default function ApplicationViews({ isLoggedIn }) {
-
   return (
     <main>
       <Switch>
         <Route path="/" exact>
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route exact path="/userprofiles">
+          {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/userprofiles/details/:id(\d+)">
+          {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
@@ -20,7 +29,9 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/register">
           <Register />
         </Route>
+
+        <Route>404 Not Found</Route>
       </Switch>
     </main>
   );
-};
+}
