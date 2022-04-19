@@ -12,7 +12,7 @@ const UserProfilesList = () => {
 
   useEffect(() => {
     getProfiles();
-  });
+  }, []);
   return (
     <div className="container">
       <h1>List of Active User Profiles</h1>
