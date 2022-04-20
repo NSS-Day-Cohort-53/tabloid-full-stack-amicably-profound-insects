@@ -24,6 +24,12 @@ namespace Tabloid.Utils
 
             return reader.GetString(ordinal);
         }
+        public static bool GetBool(SqlDataReader reader, string column)
+        {
+            var ordinal = reader.GetOrdinal(column);
+          
+            return reader.GetBoolean(ordinal);
+        }
 
         /// <summary>
         ///  Get an int from a data reader object.
