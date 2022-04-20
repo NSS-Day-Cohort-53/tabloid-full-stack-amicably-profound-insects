@@ -45,16 +45,9 @@ export default function Header({ isLoggedIn }) {
                     Category Management
                   </NavLink>
                 </NavItem>
-                <NavItem>
-                  <a
-                    aria-current="page"
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push("/userprofiles")}
-                  >
-                    User Profiles
-                  </a>
-                </NavItem>
+                <NavLink tag={RRNavLink} to="/userProfiles">
+                  User Profiles
+                </NavLink>
               </>
             )}
           </Nav>

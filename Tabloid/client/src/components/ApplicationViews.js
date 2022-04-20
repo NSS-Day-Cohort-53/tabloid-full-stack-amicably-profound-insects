@@ -25,7 +25,7 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/tag" exact>
           {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
-        </Route>       
+        </Route>
         <Route exact path="/userprofiles">
           {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
         </Route>

@@ -22,7 +22,7 @@ namespace Tabloid.Repositories
                                ut.Name AS UserTypeName
                           FROM UserProfile up
                                LEFT JOIN UserType ut on up.UserTypeId = ut.Id
-                         WHERE FirebaseUserId = @FirebaseuserId";
+                         WHERE FirebaseUserId = @FirebaseuserId AND IsDeactivated = 0";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 
@@ -75,6 +75,7 @@ namespace Tabloid.Repositories
                                                Name
                                           FROM UserProfile up
                                                JOIN UserType ut ON ut.Id = UserTypeId
+                                         WHERE IsDeactivated = 0
                                          ORDER BY DisplayName
                                          ";
                     var reader = cmd.ExecuteReader();
@@ -120,7 +121,7 @@ namespace Tabloid.Repositories
                                ut.Name AS UserTypeName
                           FROM UserProfile up
                                LEFT JOIN UserType ut on up.UserTypeId = ut.Id
-                         WHERE up.Id = @id";
+                         WHERE up.Id = @id AND IsDeactivated = 0";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -176,6 +177,25 @@ namespace Tabloid.Repositories
                     DbUtils.AddParameter(cmd, "@UserTypeId", userProfile.UserTypeId);
 
                     userProfile.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
+        
+        public void Deactivate(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile
+                                                SET IsDeactivated = 1
+                                                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
