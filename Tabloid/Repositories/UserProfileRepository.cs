@@ -180,7 +180,7 @@ namespace Tabloid.Repositories
                 }
             }
         }
-
+        
         public void Deactivate(int id)
         {
             using (var conn = Connection)

@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Security.Claims;
 using Tabloid.Models;
 using Tabloid.Repositories;
@@ -8,6 +11,7 @@ namespace Tabloid.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;
@@ -71,8 +75,17 @@ namespace Tabloid.Controllers
                 {
                     return BadRequest();
                 }
-                _userProfileRepository.Deactivate(id);
-                return NoContent();
+                var currentUser = GetCurrentUserProfile();
+                if (currentUser.UserTypeId == 1)
+                {
+                    _userProfileRepository.Deactivate(id);
+                    return NoContent();
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+                
             }
             catch (Exception ex)
             {
