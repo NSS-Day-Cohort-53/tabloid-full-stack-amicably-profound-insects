@@ -6,7 +6,7 @@ import { useHistory, Link, useParams } from "react-router-dom";
 export const CategoryEditForm = () => {
   const { categoryId } = useParams();
   const [category, setCategory] = useState({
-    id: 1,
+    id: 0,
     name: "",
   });
 
@@ -24,11 +24,7 @@ export const CategoryEditForm = () => {
     const edittingCategory = (evt) => {
         evt.preventDefault();
 
-        const edittedCategory = {
-            id: category.id,
-            name: category.name,
-        };
-        editCategory(categoryId, edittedCategory)
+        editCategory(categoryId, category)
         .then(history.push("/category"))
     }
 

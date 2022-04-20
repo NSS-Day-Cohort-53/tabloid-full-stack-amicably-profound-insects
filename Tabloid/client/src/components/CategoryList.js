@@ -17,17 +17,12 @@ export const CategoryList = () => {
 
   const handleDelete = (id) => {
     deleteCategory(id)
-      .then(getCategories())
-      .then((c) => {
-        history.push("/category");
-      });
+      .then(() => getCategories())
   };
 
   const deleteConfirmation = (id) => {
     if (window.confirm("Are you sure you want to delete?")) {
         handleDelete(id);
-    } else {
-        history.push("/category")
     }
 }
 

@@ -45,6 +45,12 @@ export const deleteCategory = (id) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    }).then((res) => {
+      if (res.ok) {
+        return
+      } else {
+        throw new Error("Error");
+      }
     })
   );
 };
@@ -75,6 +81,12 @@ export const editCategory = (id, category) => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(category),
+    }).then((res) => {
+      if (res.ok) {
+        return res.status;
+      } else {
+        throw new Error("Error");
+      }
     });
   });
 };
