@@ -26,8 +26,8 @@ const PostList = () => {
         {posts.map((p) => (
           <tr>
             <td>{p.title}</td>
-            <td>{p.userProfile.fullName}</td>
-            <td>{p.category.name}</td>
+            <td>{p.userProfile?.fullName}</td>
+            <td>{p.category?.name}</td>
           </tr>
         ))}
       </tbody>
