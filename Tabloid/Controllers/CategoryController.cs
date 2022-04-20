@@ -24,12 +24,12 @@ namespace Tabloid.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var video = _categoryRepository.GetById(id);
-            if (video == null)
+            var category = _categoryRepository.GetById(id);
+            if (category == null)
             {
                 return NotFound();
             }
-            return Ok(video);
+            return Ok(category);
         }
 
         [HttpPost]

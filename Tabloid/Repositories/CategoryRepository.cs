@@ -70,10 +70,10 @@ namespace Tabloid.Repositories
 
         public void Add(Category category)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"INSERT INTO Category (Name)
                                         OUTPUT INSERTED.ID
@@ -87,10 +87,10 @@ namespace Tabloid.Repositories
 
         public void Update(Category category)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"UPDATE Category
                                         SET Name = @Name
@@ -106,10 +106,10 @@ namespace Tabloid.Repositories
 
         public void Delete(int id)
         {
-            using (var conn = Connection)
+            using (SqlConnection conn = Connection)
             {
                 conn.Open();
-                using (var cmd = conn.CreateCommand())
+                using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = "DELETE FROM Category WHERE Id = @id";
                     DbUtils.AddParameter(cmd, "@id", id);

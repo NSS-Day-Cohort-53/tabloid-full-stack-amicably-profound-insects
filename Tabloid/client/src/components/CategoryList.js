@@ -42,14 +42,14 @@ export const CategoryList = () => {
         {categories.map((category) => {
           return (
             <tr>
-              <td key={`category--${category.id}`}>{category.name} </td>
+              <td>{category.name} </td>
               <td>
                 <Link to={`/category/${category.id}`}>
                   <button id={category.id} key={category.id}>Edit</button>
                 </Link>
               </td>
               <td>
-                <button key={`catButton--${category.id}`} onClick={() => deleteConfirmation(category.id)}>Delete</button>
+                <button onClick={() => deleteConfirmation(category.id)}>Delete</button>
               </td>
             </tr>
           );

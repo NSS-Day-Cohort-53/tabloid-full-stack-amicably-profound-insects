@@ -13,10 +13,11 @@ export const CategoryEditForm = () => {
   const history = useHistory();
 
   useEffect(() => {
+    if (categoryId) {
       getCategory(categoryId)
-      .then((res) => {
+      .then((res) => { 
           setCategory(res)
-      })
+      })}
     }, [categoryId])
 
 
