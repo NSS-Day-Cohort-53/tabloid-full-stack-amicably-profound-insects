@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { NavLink as RRNavLink } from "react-router-dom";
 import {
   Collapse,
@@ -14,6 +15,7 @@ import { logout } from "../modules/authManager";
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const history = useHistory();
 
   return (
     <div>
@@ -26,21 +28,36 @@ export default function Header({ isLoggedIn }) {
           <Nav className="mr-auto" navbar>
             {/* When isLoggedIn === true, we will render the Home link */}
             {isLoggedIn && (
-              <NavItem>
-                <NavLink tag={RRNavLink} to="/">
-                  Home
-                </NavLink>
-              </NavItem>
+              <>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/">
+                    Home
+                  </NavLink>
+                </NavItem>
+                <NavLink href="/posts">Posts</NavLink>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/tag">
+                    Tag Management
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <a
+                    aria-current="page"
+                    className="nav-link"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push("/userprofiles")}
+                  >
+                    User Profiles
+                  </a>
+                </NavItem>
+              </>
             )}
-
-            <NavLink href="/posts">Posts</NavLink>
           </Nav>
           <Nav navbar>
             {isLoggedIn && (
               <>
                 <NavItem>
                   <a
-                    href="/#"
                     aria-current="page"
                     className="nav-link"
                     style={{ cursor: "pointer" }}
