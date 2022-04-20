@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { deactivateUserProfile } from "../../modules/UserProfileManager";
+import { UserTypeContext } from "./UserTypeProvider";
 
 const UserProfileListItem = ({ profile, getProfiles }) => {
+  const { currentUserType, updateCurrentUserType } =
+    useContext(UserTypeContext);
   const history = useHistory();
 
   const [show, setShow] = useState(false);
@@ -18,6 +21,10 @@ const UserProfileListItem = ({ profile, getProfiles }) => {
     });
   };
 
+  useEffect(() => {
+    updateCurrentUserType();
+  }, []);
+
   return (
     <tr>
       <td>{profile.displayName}</td>
@@ -30,7 +37,11 @@ const UserProfileListItem = ({ profile, getProfiles }) => {
         >
           Details
         </Button>
-        <Button color="danger" onClick={handleShow}>
+        <Button
+          color="danger"
+          onClick={handleShow}
+          hidden={currentUserType !== 1 ? true : false}
+        >
           Deactivate
         </Button>
         <Modal isOpen={show} toggle={handleClose}>

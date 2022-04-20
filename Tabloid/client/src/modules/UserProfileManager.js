@@ -62,3 +62,22 @@ export const deactivateUserProfile = (profile) => {
     });
   });
 };
+
+export const getCurrentUserType = () => {
+  return getToken().then((token) => {
+    return fetch(`${baseUrl}/getCurrentUserType`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to get the current user's type."
+        );
+      }
+    });
+  });
+};
