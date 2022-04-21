@@ -1,12 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { Button, Table } from "reactstrap";
-import { getAllUserProfiles } from "../../modules/UserProfileManager";
+import { Link } from "react-router-dom";
+import { Table } from "reactstrap";
+import {
+  getAllUserProfiles,
+  getAllUserTypes,
+} from "../../modules/UserProfileManager";
 import UserProfileListItem from "./UserProfileListItem";
 import { UserTypeContext } from "./UserTypeProvider";
 
 const UserProfilesList = () => {
   const [profiles, setProfiles] = useState([]);
+  const [userTypes, setUserTypes] = useState([]);
   const { currentUserType, updateCurrentUserType } =
     useContext(UserTypeContext);
 
@@ -14,8 +18,13 @@ const UserProfilesList = () => {
     getAllUserProfiles().then((profiles) => setProfiles(profiles));
   };
 
+  const getUserTypes = () => {
+    getAllUserTypes().then((types) => setUserTypes(types));
+  };
+
   useEffect(() => {
     getProfiles();
+    getUserTypes();
     updateCurrentUserType();
   }, []);
 
@@ -39,6 +48,8 @@ const UserProfilesList = () => {
               key={profile.id}
               getProfiles={getProfiles}
               currentUserType={currentUserType}
+              userTypes={userTypes}
+              updateCurrentUserType={updateCurrentUserType}
             />
           ))}
         </tbody>

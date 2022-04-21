@@ -180,7 +180,7 @@ namespace Tabloid.Repositories
                 }
             }
         }
-        
+
         public void Deactivate(int id)
         {
             using (var conn = Connection)
@@ -219,7 +219,7 @@ namespace Tabloid.Repositories
             }
         }
 
-            public List<UserProfile> GetDeactivatedUserProfiles()
+        public List<UserProfile> GetDeactivatedUserProfiles()
         {
             using (var conn = Connection)
             {
@@ -273,19 +273,54 @@ namespace Tabloid.Repositories
             }
         }
 
-        /*
-        public UserProfile GetByFirebaseUserId(string firebaseUserId)
+        public void ChangeUserType(UserProfile profile)
         {
-            return _context.UserProfile
-                       .Include(up => up.UserType) 
-                       .FirstOrDefault(up => up.FirebaseUserId == firebaseUserId);
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile
+                                                SET UserTypeId = @userTypeId
+                                                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", profile.Id);
+                    cmd.Parameters.AddWithValue("@userTypeId", profile.UserTypeId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
-        public void Add(UserProfile userProfile)
+        public List<UserType> GetUserTypes()
         {
-            _context.Add(userProfile);
-            _context.SaveChanges();
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, [Name]
+                                          FROM UserType
+                                         ";
+                    var reader = cmd.ExecuteReader();
+
+                    var userTypes = new List<UserType>();
+
+                    while (reader.Read())
+                    {
+                        var userType = new UserType()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                        };
+
+                        userTypes.Add(userType);
+                    }
+                    return userTypes;
+                }
+            }
         }
-        */
     }
 }

@@ -126,6 +126,39 @@ namespace Tabloid.Controllers
             return Ok(_userProfileRepository.GetDeactivatedUserProfiles());
         }
 
+        [HttpPut("edit/{id}")]
+        public IActionResult ChangeUserType(int id, UserProfile profile)
+        {
+            try
+            {
+                if (id != profile.Id)
+                {
+                    return BadRequest();
+                }
+                var currentUser = GetCurrentUserProfile();
+                if (currentUser.UserTypeId == 1)
+                {
+                    _userProfileRepository.ChangeUserType(profile);
+                    return NoContent();
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("usertypes")]
+        public IActionResult GetUserTypes()
+        {
+            return Ok(_userProfileRepository.GetUserTypes());
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

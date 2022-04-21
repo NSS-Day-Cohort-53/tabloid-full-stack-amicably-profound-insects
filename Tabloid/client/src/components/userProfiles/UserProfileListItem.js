@@ -1,20 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import { deactivateUserProfile } from "../../modules/UserProfileManager";
+import {
+  deactivateUserProfile,
+  changeUserType,
+} from "../../modules/UserProfileManager";
 
-const UserProfileListItem = ({ profile, getProfiles, currentUserType }) => {
+const UserProfileListItem = ({
+  profile,
+  getProfiles,
+  currentUserType,
+  updateCurrentUserType,
+  userTypes,
+}) => {
+  const [editedProfile, setEditedProfile] = useState(profile);
+
   const history = useHistory();
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const handleCloseEditModal = () => setShowEditModal(false);
+  const handleShowEditModal = () => setShowEditModal(true);
 
   const deactivate = () => {
     deactivateUserProfile(profile).then(() => {
       getProfiles();
       handleClose();
+    });
+  };
+
+  const editUserType = (event) => {
+    changeUserType(editedProfile).then(() => {
+      updateCurrentUserType();
+      getProfiles();
+      handleCloseEditModal();
     });
   };
 
@@ -26,10 +48,77 @@ const UserProfileListItem = ({ profile, getProfiles, currentUserType }) => {
 
       <td>
         <Button
+          color="primary"
           onClick={() => history.push(`/userprofiles/details/${profile.id}`)}
         >
           Details
         </Button>
+
+        <Button
+          color="secondary"
+          onClick={handleShowEditModal}
+          hidden={currentUserType !== 1 ? true : false}
+        >
+          Edit
+        </Button>
+        <Modal isOpen={showEditModal} toggle={handleCloseEditModal}>
+          <ModalHeader toggle={handleCloseEditModal}>
+            Change {profile.displayName}'s user type?
+          </ModalHeader>
+          <ModalBody>
+            <div>
+              <label className="font-weight-bold">Display Name: </label>
+              <span> {profile.displayName}</span>
+            </div>
+            <div>
+              <label className="font-weight-bold">Name: </label>
+              <span> {profile.fullName}</span>
+            </div>
+            <div>
+              <label className="font-weight-bold">Email: </label>
+              <span> {profile.email}</span>
+            </div>
+            <div>
+              <label className="font-weight-bold">Account Creation: </label>
+              <span> {profile.createDateTimeFormatted}</span>
+            </div>
+            <div>
+              <label className="font-weight-bold" htmlFor="userType">
+                User type:{" "}
+              </label>
+              <select
+                name="userType"
+                id="userType"
+                defaultValue={profile.userTypeId}
+                onChange={(event) => {
+                  const copy = { ...editedProfile };
+                  copy.userTypeId = parseInt(event.target.value);
+                  setEditedProfile(copy);
+                }}
+              >
+                {userTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={handleCloseEditModal}>
+              Cancel
+            </Button>
+            <Button
+              color="danger"
+              onClick={() => {
+                editUserType();
+              }}
+            >
+              Save
+            </Button>
+          </ModalFooter>
+        </Modal>
+
         <Button
           color="danger"
           onClick={handleShow}
