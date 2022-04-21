@@ -180,7 +180,7 @@ namespace Tabloid.Repositories
                 }
             }
         }
-        
+
         public void Deactivate(int id)
         {
             using (var conn = Connection)
@@ -219,7 +219,7 @@ namespace Tabloid.Repositories
             }
         }
 
-            public List<UserProfile> GetDeactivatedUserProfiles()
+        public List<UserProfile> GetDeactivatedUserProfiles()
         {
             using (var conn = Connection)
             {
@@ -269,6 +269,36 @@ namespace Tabloid.Repositories
                     }
 
                     return users;
+                }
+            }
+        }
+
+        public List<UserType> GetUserTypes()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Id, [Name]
+                                          FROM UserType
+                                         ";
+                    var reader = cmd.ExecuteReader();
+
+                    var userTypes = new List<UserType>();
+
+                    while (reader.Read())
+                    {
+                        var userType = new UserType()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name"),
+                        };
+
+                        userTypes.Add(userType);
+                    }
+                    return userTypes;
                 }
             }
         }

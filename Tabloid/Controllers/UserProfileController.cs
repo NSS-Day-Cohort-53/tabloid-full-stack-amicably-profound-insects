@@ -126,6 +126,12 @@ namespace Tabloid.Controllers
             return Ok(_userProfileRepository.GetDeactivatedUserProfiles());
         }
 
+        [HttpGet("usertypes")]
+        public IActionResult GetUserTypes()
+        {
+            return Ok(_userProfileRepository.GetUserTypes());
+        }
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
