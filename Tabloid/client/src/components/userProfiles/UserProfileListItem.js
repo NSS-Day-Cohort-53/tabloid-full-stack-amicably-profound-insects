@@ -114,7 +114,7 @@ const UserProfileListItem = ({
                 editUserType();
               }}
             >
-              Edit
+              Save
             </Button>
           </ModalFooter>
         </Modal>
