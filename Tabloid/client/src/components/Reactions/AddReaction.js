@@ -15,10 +15,13 @@ export const AddReaction = () => {
 
   const handleSave = (evt) => {
     evt.preventDefault();
-
-    addReaction(reaction).then((r) => {
-      history.push("/");
-    });
+    if (reaction.name === "" || reaction.imageLocation === "" ) {
+        alert("Fields cannot be left blank")
+    } else {
+        addReaction(reaction).then((r) => {
+          history.push("/");
+        });
+    }
   };
 
   return (

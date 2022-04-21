@@ -7,6 +7,7 @@ using Tabloid.Repositories;
 
 namespace Tabloid.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ReactionController : ControllerBase
@@ -24,13 +25,6 @@ namespace Tabloid.Controllers
             return Ok();
         }
 
-        //// GET api/<ReactionController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
         // POST api/<ReactionController>
         [HttpPost]
         public IActionResult Post(Reaction reaction)
@@ -39,17 +33,5 @@ namespace Tabloid.Controllers
 
             return CreatedAtAction("Get", new { id = reaction.Id }, reaction);
         }
-
-        // PUT api/<ReactionController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<ReactionController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }
