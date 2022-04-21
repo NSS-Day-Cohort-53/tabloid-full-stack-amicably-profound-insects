@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { NavLink as RRNavLink } from "react-router-dom";
 import {
   Collapse,
@@ -15,7 +14,6 @@ import { logout } from "../modules/authManager";
 export default function Header({ isLoggedIn }) {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  const history = useHistory();
 
   return (
     <div>
