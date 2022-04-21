@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import { deactivateUserProfile } from "../../modules/UserProfileManager";
+import {
+  deactivateUserProfile,
+  changeUserType,
+} from "../../modules/UserProfileManager";
 
 const UserProfileListItem = ({
   profile,
   getProfiles,
   currentUserType,
+  updateCurrentUserType,
   userTypes,
 }) => {
+  const [editedProfile, setEditedProfile] = useState(profile);
+
   const history = useHistory();
 
   const [show, setShow] = useState(false);
@@ -26,8 +32,12 @@ const UserProfileListItem = ({
     });
   };
 
-  const editUserType = () => {
-    handleCloseEditModal();
+  const editUserType = (event) => {
+    changeUserType(editedProfile).then(() => {
+      updateCurrentUserType();
+      getProfiles();
+      handleCloseEditModal();
+    });
   };
 
   return (
@@ -80,6 +90,11 @@ const UserProfileListItem = ({
                 name="userType"
                 id="userType"
                 defaultValue={profile.userTypeId}
+                onChange={(event) => {
+                  const copy = { ...editedProfile };
+                  copy.userTypeId = parseInt(event.target.value);
+                  setEditedProfile(copy);
+                }}
               >
                 {userTypes.map((type) => (
                   <option key={type.id} value={type.id}>

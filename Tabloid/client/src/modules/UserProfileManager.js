@@ -122,6 +122,27 @@ export const getAllUserProfilesDeactivated = () => {
   });
 };
 
+export const changeUserType = (profile) => {
+  return getToken().then((token) => {
+    return fetch(`${baseUrl}/edit/${profile.id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    }).then((res) => {
+      if (res.ok) {
+        return res.status;
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to change a user profile's user type."
+        );
+      }
+    });
+  });
+};
+
 export const getAllUserTypes = () => {
   return getToken().then((token) => {
     return fetch(`${baseUrl}/usertypes`, {

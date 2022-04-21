@@ -49,6 +49,7 @@ const UserProfilesList = () => {
               getProfiles={getProfiles}
               currentUserType={currentUserType}
               userTypes={userTypes}
+              updateCurrentUserType={updateCurrentUserType}
             />
           ))}
         </tbody>
