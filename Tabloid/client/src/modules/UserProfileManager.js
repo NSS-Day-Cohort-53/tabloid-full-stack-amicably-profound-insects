@@ -81,3 +81,22 @@ export const getCurrentUserType = () => {
     });
   });
 };
+
+export const getAllUserProfilesDeactivated = () => {
+  return getToken().then((token) => {
+    return fetch(`${baseUrl}/deactivated`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to get user profiles."
+        );
+      }
+    });
+  });
+};
