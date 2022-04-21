@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Table } from "reactstrap";
+import { Link, useHistory } from "react-router-dom";
+import { Button, Table } from "reactstrap";
 import { getAllUserProfiles } from "../../modules/UserProfileManager";
 import UserProfileListItem from "./UserProfileListItem";
 import { UserTypeContext } from "./UserTypeProvider";
@@ -17,6 +18,7 @@ const UserProfilesList = () => {
     getProfiles();
     updateCurrentUserType();
   }, []);
+
   return (
     <div className="container">
       <h1>List of Active User Profiles</h1>
@@ -41,6 +43,12 @@ const UserProfilesList = () => {
           ))}
         </tbody>
       </Table>
+      <Link
+        hidden={currentUserType !== 1 ? true : false}
+        to="userprofiles/deactivated/"
+      >
+        View Deactivated Accounts
+      </Link>
     </div>
   );
 };
