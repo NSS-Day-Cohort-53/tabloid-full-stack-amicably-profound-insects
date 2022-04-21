@@ -92,7 +92,27 @@ namespace Tabloid.Controllers
                 return BadRequest();
             }
         }
-        
+
+        [HttpPut("reactivate/{id}")]
+        public IActionResult Reactivate(int id, UserProfile profile)
+        {
+                if (id != profile.Id)
+                {
+                    return BadRequest();
+                }
+                var currentUser = GetCurrentUserProfile();
+                if (currentUser.UserTypeId == 1)
+                {
+                    _userProfileRepository.Deactivate(id);
+                    return NoContent();
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+        }
+
+
         [HttpGet("getCurrentUserType")]
         public IActionResult GetCurrentUserType()
         {

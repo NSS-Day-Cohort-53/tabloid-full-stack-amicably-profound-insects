@@ -200,7 +200,26 @@ namespace Tabloid.Repositories
             }
         }
 
-        public List<UserProfile> GetDeactivatedUserProfiles()
+        public void Reactivate(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile
+                                                SET IsDeactivated = 0
+                                                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+            public List<UserProfile> GetDeactivatedUserProfiles()
         {
             using (var conn = Connection)
             {
