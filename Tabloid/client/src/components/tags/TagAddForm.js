@@ -15,11 +15,14 @@ export const TagAddForm = () => {
 
   const handleSave = (evt) => {
       evt.preventDefault();
-
-      addTag(tag).then((t) => {
-          history.push("/tag");
-      });
-  };
+      if (!tag.name || !tag.name.trim() ) {
+          alert("Name must be filled out");
+      } else {
+         addTag(tag).then((t) => {
+         history.push("/tag");
+    });
+ }
+};
 
   return (
         <div>
