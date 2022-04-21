@@ -9,6 +9,8 @@ import UserProfileDetails from "./userProfiles/UserProfileDetails";
 import {CategoryList} from "./CategoryList"
 import {CategoryForm} from "./CategoryForm"
 import {CategoryEditForm} from "./CategoryEditForm"
+import {AddReaction} from "./Reactions/AddReaction"
+import { ReactionList } from "./Reactions/ReactionList";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -37,6 +39,10 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
         <Route path="/category/:categoryId(\d+)">
           {isLoggedIn ? <CategoryEditForm /> : <Redirect to="/login" />}
+        </Route>
+        
+        <Route path="/reaction/add">
+          {isLoggedIn ? <AddReaction /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">

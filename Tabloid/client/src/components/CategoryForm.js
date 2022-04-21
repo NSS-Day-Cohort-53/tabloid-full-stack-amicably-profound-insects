@@ -41,7 +41,9 @@ export const CategoryForm = () => {
         </FormGroup>
       </Form>
       <Button onClick={handleSave}>Save</Button>
-      <Link to={`/category`}><Button>Cancel</Button></Link>
+      <Link to={`/category`}>
+        <Button>Cancel</Button>
+      </Link>
     </div>
   );
 };
