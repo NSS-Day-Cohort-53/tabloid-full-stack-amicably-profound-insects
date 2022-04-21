@@ -71,31 +71,6 @@ namespace Tabloid.Controllers
         {
             try
             {
-                if(id != profile.Id)
-                {
-                    return BadRequest();
-                }
-                var currentUser = GetCurrentUserProfile();
-                if (currentUser.UserTypeId == 1)
-                {
-                    _userProfileRepository.Deactivate(id);
-                    return NoContent();
-                }
-                else
-                {
-                    return Unauthorized();
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpPut("reactivate/{id}")]
-        public IActionResult Reactivate(int id, UserProfile profile)
-        {
                 if (id != profile.Id)
                 {
                     return BadRequest();
@@ -110,6 +85,31 @@ namespace Tabloid.Controllers
                 {
                     return Unauthorized();
                 }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("reactivate/{id}")]
+        public IActionResult Reactivate(int id, UserProfile profile)
+        {
+            if (id != profile.Id)
+            {
+                return BadRequest();
+            }
+            var currentUser = GetCurrentUserProfile();
+            if (currentUser.UserTypeId == 1)
+            {
+                _userProfileRepository.Reactivate(id);
+                return NoContent();
+            }
+            else
+            {
+                return Unauthorized();
+            }
         }
 
 
@@ -117,15 +117,15 @@ namespace Tabloid.Controllers
         public IActionResult GetCurrentUserType()
         {
             var currentUser = GetCurrentUserProfile();
-            return Ok(new { userType = currentUser.UserTypeId } );
+            return Ok(new { userType = currentUser.UserTypeId });
         }
 
         [HttpGet("deactivated")]
         public IActionResult GetDeactivatedUserProfiles()
         {
-            return Ok(_userProfileRepository.GetDeactivatedUserProfiles()); 
+            return Ok(_userProfileRepository.GetDeactivatedUserProfiles());
         }
-        
+
         private UserProfile GetCurrentUserProfile()
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

@@ -63,6 +63,27 @@ export const deactivateUserProfile = (profile) => {
   });
 };
 
+export const reactivateUserProfile = (profile) => {
+  return getToken().then((token) => {
+    return fetch(`${baseUrl}/reactivate/${profile.id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    }).then((res) => {
+      if (res.ok) {
+        return res.status;
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to reactivate a user profile."
+        );
+      }
+    });
+  });
+};
+
 export const getCurrentUserType = () => {
   return getToken().then((token) => {
     return fetch(`${baseUrl}/getCurrentUserType`, {
