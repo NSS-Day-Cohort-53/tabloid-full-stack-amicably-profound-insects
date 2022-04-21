@@ -140,7 +140,7 @@ namespace Tabloid.Controllers
                     return BadRequest();
                 }
                 var currentUser = GetCurrentUserProfile();
-                if (currentUser.UserTypeId == 1)
+                if (currentUser.UserTypeId == 1 && (profile.UserTypeId == 2 || !_userProfileRepository.CheckIfLastAdmin()))
                 {
                     _userProfileRepository.ChangeUserType(profile);
                     return NoContent();
