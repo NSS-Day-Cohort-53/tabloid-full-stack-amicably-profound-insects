@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
+using System.Security.Claims;
 using Tabloid.Models;
 using Tabloid.Repositories;
 
@@ -7,6 +11,7 @@ namespace Tabloid.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserProfileController : ControllerBase
     {
         private readonly IUserProfileRepository _userProfileRepository;
@@ -59,6 +64,72 @@ namespace Tabloid.Controllers
                 nameof(GetUserProfile),
                 new { firebaseUserId = userProfile.FirebaseUserId },
                 userProfile);
+        }
+
+        [HttpPut("deactivate/{id}")]
+        public IActionResult Deactivate(int id, UserProfile profile)
+        {
+            try
+            {
+                if (id != profile.Id)
+                {
+                    return BadRequest();
+                }
+                var currentUser = GetCurrentUserProfile();
+                if (currentUser.UserTypeId == 1)
+                {
+                    _userProfileRepository.Deactivate(id);
+                    return NoContent();
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("reactivate/{id}")]
+        public IActionResult Reactivate(int id, UserProfile profile)
+        {
+            if (id != profile.Id)
+            {
+                return BadRequest();
+            }
+            var currentUser = GetCurrentUserProfile();
+            if (currentUser.UserTypeId == 1)
+            {
+                _userProfileRepository.Reactivate(id);
+                return NoContent();
+            }
+            else
+            {
+                return Unauthorized();
+            }
+        }
+
+
+        [HttpGet("getCurrentUserType")]
+        public IActionResult GetCurrentUserType()
+        {
+            var currentUser = GetCurrentUserProfile();
+            return Ok(new { userType = currentUser.UserTypeId });
+        }
+
+        [HttpGet("deactivated")]
+        public IActionResult GetDeactivatedUserProfiles()
+        {
+            return Ok(_userProfileRepository.GetDeactivatedUserProfiles());
+        }
+
+        private UserProfile GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

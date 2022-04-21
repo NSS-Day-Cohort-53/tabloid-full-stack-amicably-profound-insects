@@ -5,6 +5,9 @@ namespace Tabloid.Repositories
 {
     public interface IUserProfileRepository
     {
+        List<UserProfile> GetDeactivatedUserProfiles();
+        void Reactivate(int id);
+        void Deactivate(int id);
         UserProfile GetById(int id);
         List<UserProfile> GetAll();
         void Add(UserProfile userProfile);

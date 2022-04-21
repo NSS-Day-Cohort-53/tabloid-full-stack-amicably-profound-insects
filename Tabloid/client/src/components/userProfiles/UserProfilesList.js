@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Table } from "reactstrap";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { Button, Table } from "reactstrap";
 import { getAllUserProfiles } from "../../modules/UserProfileManager";
 import UserProfileListItem from "./UserProfileListItem";
+import { UserTypeContext } from "./UserTypeProvider";
 
 const UserProfilesList = () => {
   const [profiles, setProfiles] = useState([]);
+  const { currentUserType, updateCurrentUserType } =
+    useContext(UserTypeContext);
 
   const getProfiles = () => {
     getAllUserProfiles().then((profiles) => setProfiles(profiles));
@@ -12,7 +16,9 @@ const UserProfilesList = () => {
 
   useEffect(() => {
     getProfiles();
+    updateCurrentUserType();
   }, []);
+
   return (
     <div className="container">
       <h1>List of Active User Profiles</h1>
@@ -28,10 +34,21 @@ const UserProfilesList = () => {
         </thead>
         <tbody>
           {profiles.map((profile) => (
-            <UserProfileListItem profile={profile} key={profile.id} />
+            <UserProfileListItem
+              profile={profile}
+              key={profile.id}
+              getProfiles={getProfiles}
+              currentUserType={currentUserType}
+            />
           ))}
         </tbody>
       </Table>
+      <Link
+        hidden={currentUserType !== 1 ? true : false}
+        to="userprofiles/deactivated/"
+      >
+        View Deactivated Accounts
+      </Link>
     </div>
   );
 };

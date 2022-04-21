@@ -3,8 +3,10 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
+import PostList from "./PostList";
 import TagList from "./TagList";
 import UserProfilesList from "./userProfiles/UserProfilesList";
+import UserProfilesListDeactivated from "./userProfiles/UserProfilesListDeactivated";
 import UserProfileDetails from "./userProfiles/UserProfileDetails";
 import {CategoryList} from "./CategoryList"
 import {CategoryForm} from "./CategoryForm"
@@ -16,21 +18,33 @@ export default function ApplicationViews({ isLoggedIn }) {
   return (
     <main>
       <Switch>
+        <Route path="/posts" exact>
+          {isLoggedIn ? <PostList /> : <Redirect to="/login" />}
+        </Route>
+
         <Route path="/" exact>
           {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/tag" exact>
           {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
-        </Route>       
+        </Route>
         <Route exact path="/userprofiles">
           {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route exact path="/userprofiles/deactivated">
+          {isLoggedIn ? (
+            <UserProfilesListDeactivated />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
 
         <Route path="/userprofiles/details/:id(\d+)">
           {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
         </Route>
-        
+
         <Route exact path="/category">
           {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
         </Route>
