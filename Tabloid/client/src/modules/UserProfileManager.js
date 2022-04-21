@@ -63,6 +63,27 @@ export const deactivateUserProfile = (profile) => {
   });
 };
 
+export const reactivateUserProfile = (profile) => {
+  return getToken().then((token) => {
+    return fetch(`${baseUrl}/reactivate/${profile.id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(profile),
+    }).then((res) => {
+      if (res.ok) {
+        return res.status;
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to reactivate a user profile."
+        );
+      }
+    });
+  });
+};
+
 export const getCurrentUserType = () => {
   return getToken().then((token) => {
     return fetch(`${baseUrl}/getCurrentUserType`, {
@@ -76,6 +97,25 @@ export const getCurrentUserType = () => {
       } else {
         throw new Error(
           "An unknown error occurred while trying to get the current user's type."
+        );
+      }
+    });
+  });
+};
+
+export const getAllUserProfilesDeactivated = () => {
+  return getToken().then((token) => {
+    return fetch(`${baseUrl}/deactivated`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to get user profiles."
         );
       }
     });

@@ -6,10 +6,11 @@ import Hello from "./Hello";
 import PostList from "./PostList";
 import TagList from "./TagList";
 import UserProfilesList from "./userProfiles/UserProfilesList";
+import UserProfilesListDeactivated from "./userProfiles/UserProfilesListDeactivated";
 import UserProfileDetails from "./userProfiles/UserProfileDetails";
-import {CategoryList} from "./CategoryList"
-import {CategoryForm} from "./CategoryForm"
-import {CategoryEditForm} from "./CategoryEditForm"
+import { CategoryList } from "./CategoryList";
+import { CategoryForm } from "./CategoryForm";
+import { CategoryEditForm } from "./CategoryEditForm";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -30,10 +31,18 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
         </Route>
 
+        <Route exact path="/userprofiles/deactivated">
+          {isLoggedIn ? (
+            <UserProfilesListDeactivated />
+          ) : (
+            <Redirect to="/login" />
+          )}
+        </Route>
+
         <Route path="/userprofiles/details/:id(\d+)">
           {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
         </Route>
-        
+
         <Route exact path="/category">
           {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
         </Route>

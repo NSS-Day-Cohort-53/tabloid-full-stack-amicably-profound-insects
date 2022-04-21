@@ -200,6 +200,79 @@ namespace Tabloid.Repositories
             }
         }
 
+        public void Reactivate(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile
+                                                SET IsDeactivated = 0
+                                                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+            public List<UserProfile> GetDeactivatedUserProfiles()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT up.Id AS upId,
+                                               DisplayName,
+                                               FirstName,
+                                               LastName,
+                                               Email,
+                                               CreateDateTime,
+                                               ImageLocation,
+                                               UserTypeId,
+                                               Name
+                                          FROM UserProfile up
+                                               JOIN UserType ut ON ut.Id = UserTypeId
+                                         WHERE IsDeactivated = 1                                         
+                                         ORDER BY DisplayName
+                                         ";
+
+                    var reader = cmd.ExecuteReader();
+
+                    var users = new List<UserProfile>();
+
+                    while (reader.Read())
+                    {
+                        var user = new UserProfile()
+                        {
+                            Id = DbUtils.GetInt(reader, "upId"),
+                            DisplayName = DbUtils.GetString(reader, "DisplayName"),
+                            FirstName = DbUtils.GetString(reader, "FirstName"),
+                            LastName = DbUtils.GetString(reader, "LastName"),
+                            Email = DbUtils.GetString(reader, "Email"),
+                            ImageLocation = DbUtils.GetString(reader, "ImageLocation"),
+                            CreateDateTime = DbUtils.GetDateTime(reader, "CreateDateTime"),
+                            UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
+                            UserType = new UserType()
+                            {
+                                Id = DbUtils.GetInt(reader, "UserTypeId"),
+                                Name = DbUtils.GetString(reader, "Name"),
+                            }
+                        };
+
+                        users.Add(user);
+                    }
+
+                    return users;
+                }
+            }
+        }
+
         /*
         public UserProfile GetByFirebaseUserId(string firebaseUserId)
         {
