@@ -3,7 +3,12 @@ import { useHistory } from "react-router-dom";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { deactivateUserProfile } from "../../modules/UserProfileManager";
 
-const UserProfileListItem = ({ profile, getProfiles, currentUserType }) => {
+const UserProfileListItem = ({
+  profile,
+  getProfiles,
+  currentUserType,
+  userTypes,
+}) => {
   const history = useHistory();
 
   const [show, setShow] = useState(false);
@@ -33,6 +38,7 @@ const UserProfileListItem = ({ profile, getProfiles, currentUserType }) => {
 
       <td>
         <Button
+          color="primary"
           onClick={() => history.push(`/userprofiles/details/${profile.id}`)}
         >
           Details
@@ -67,8 +73,20 @@ const UserProfileListItem = ({ profile, getProfiles, currentUserType }) => {
               <span> {profile.createDateTimeFormatted}</span>
             </div>
             <div>
-              <label className="font-weight-bold">User type: </label>
-              <input value={profile.userTypeId} />
+              <label className="font-weight-bold" htmlFor="userType">
+                User type:{" "}
+              </label>
+              <select
+                name="userType"
+                id="userType"
+                defaultValue={profile.userTypeId}
+              >
+                {userTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
+              </select>
             </div>
           </ModalBody>
           <ModalFooter>

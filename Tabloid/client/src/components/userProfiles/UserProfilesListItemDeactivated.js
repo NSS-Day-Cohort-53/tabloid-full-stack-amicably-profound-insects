@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { reactivateUserProfile } from "../../modules/UserProfileManager";
 
@@ -7,8 +6,6 @@ const UserProfileListItemDeactivated = ({
   profile,
   getDeactivatedProfiles,
 }) => {
-  const history = useHistory();
-
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
