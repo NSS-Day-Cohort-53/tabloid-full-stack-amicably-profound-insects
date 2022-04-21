@@ -101,7 +101,7 @@ namespace Tabloid.Controllers
                 return BadRequest();
             }
             var currentUser = GetCurrentUserProfile();
-            if (currentUser.UserTypeId == 1)
+            if (currentUser.UserTypeId == 1 && !_userProfileRepository.CheckIfLastAdmin())
             {
                 _userProfileRepository.Reactivate(id);
                 return NoContent();
@@ -126,7 +126,7 @@ namespace Tabloid.Controllers
             return Ok(_userProfileRepository.GetDeactivatedUserProfiles());
         }
 
-        [HttpPut("edit/{id}")]
+        [HttpPut("usertype/{id}")]
         public IActionResult ChangeUserType(int id, UserProfile profile)
         {
             try
@@ -163,6 +163,12 @@ namespace Tabloid.Controllers
         {
             var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             return _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+        }
+
+        [HttpGet("lastadmincheck")]
+        public IActionResult CheckIfLastAdmin()
+        {
+            return Ok(new { lastAdminStatus = _userProfileRepository.CheckIfLastAdmin() });
         }
     }
 }

@@ -12,6 +12,7 @@ const UserProfileListItem = ({
   currentUserType,
   updateCurrentUserType,
   userTypes,
+  lastAdminStatus,
 }) => {
   const [editedProfile, setEditedProfile] = useState(profile);
 
@@ -153,6 +154,14 @@ const UserProfileListItem = ({
             </div>
           </ModalBody>
           <ModalFooter>
+            {lastAdminStatus && profile.userTypeId === 1 ? (
+              <p className="text-danger">
+                This user is the last admin. They cannot be deactivated.
+              </p>
+            ) : (
+              ""
+            )}
+
             <Button color="secondary" onClick={handleClose}>
               Cancel
             </Button>
@@ -161,6 +170,9 @@ const UserProfileListItem = ({
               onClick={() => {
                 deactivate();
               }}
+              disabled={
+                lastAdminStatus && profile.userTypeId === 1 ? true : false
+              }
             >
               Deactivate
             </Button>
