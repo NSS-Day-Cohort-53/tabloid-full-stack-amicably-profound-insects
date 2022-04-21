@@ -3,7 +3,8 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
-import TagList from "./TagList";
+import TagList from "./tags/TagList";
+import { TagAddForm } from "./tags/TagAddForm";
 import UserProfilesList from "./userProfiles/UserProfilesList";
 import UserProfileDetails from "./userProfiles/UserProfileDetails";
 
@@ -17,7 +18,12 @@ export default function ApplicationViews({ isLoggedIn }) {
 
         <Route path="/tag" exact>
           {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
-        </Route>       
+        </Route>
+
+        <Route path="/tag/add" exact>
+          {isLoggedIn ? <TagAddForm /> : <Redirect to="/login" />}
+        </Route>
+
         <Route exact path="/userprofiles">
           {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
         </Route>
