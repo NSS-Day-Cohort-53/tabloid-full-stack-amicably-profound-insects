@@ -1,4 +1,4 @@
-import { getToken } from "./authManager";
+import { getToken, logout } from "./authManager";
 
 const baseUrl = "/api/userprofile";
 
@@ -94,6 +94,8 @@ export const getCurrentUserType = () => {
     }).then((res) => {
       if (res.ok) {
         return res.json();
+      } else if (res.status === 404) {
+        return res.status;
       } else {
         throw new Error(
           "An unknown error occurred while trying to get the current user's type."

@@ -33,6 +33,7 @@ const UserProfileListItem = ({
     } else {
       deactivateUserProfile(profile).then(() => {
         getLastAdminStatus();
+        updateCurrentUserType();
         getProfiles();
         handleClose();
       });

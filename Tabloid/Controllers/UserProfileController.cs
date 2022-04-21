@@ -117,6 +117,10 @@ namespace Tabloid.Controllers
         public IActionResult GetCurrentUserType()
         {
             var currentUser = GetCurrentUserProfile();
+            if (currentUser == null)
+            {
+                return NotFound();
+            }
             return Ok(new { userType = currentUser.UserTypeId });
         }
 

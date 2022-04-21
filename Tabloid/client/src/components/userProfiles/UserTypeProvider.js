@@ -1,4 +1,5 @@
 import React, { useState, createContext } from "react";
+import { logout } from "../../modules/authManager";
 import { getCurrentUserType } from "../../modules/UserProfileManager";
 
 // The context is imported and used by individual components that need data
@@ -9,7 +10,13 @@ export const UserTypeProvider = (props) => {
   const [currentUserType, setCurrentUserType] = useState(0);
 
   const updateCurrentUserType = () => {
-    getCurrentUserType().then((data) => setCurrentUserType(data.userType));
+    getCurrentUserType().then((data) => {
+      if (data === 404) {
+        logout();
+      } else {
+        setCurrentUserType(data?.userType);
+      }
+    });
   };
 
   return (
