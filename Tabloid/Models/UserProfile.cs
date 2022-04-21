@@ -46,13 +46,5 @@ namespace Tabloid.Models
                 return $"{FirstName} {LastName}";
             }
         }
-
-        public string CreateDateTimeFormatted
-        {
-            get
-            {
-                return CreateDateTime.ToString("d");
-            }
-        }
     }
 }

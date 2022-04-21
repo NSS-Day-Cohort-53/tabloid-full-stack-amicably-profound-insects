@@ -34,19 +34,20 @@ export default function Header({ isLoggedIn }) {
                     Home
                   </NavLink>
                 </NavItem>
+                <NavLink href="/posts">Posts</NavLink>
                 <NavItem>
-              <NavLink tag={RRNavLink} to="/tag">Tag Management</NavLink>
-            </NavItem>
-                <NavItem>
-                  <a
-                    aria-current="page"
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push("/userprofiles")}
-                  >
-                    User Profiles
-                  </a>
+                  <NavLink tag={RRNavLink} to="/tag">
+                    Tag Management
+                  </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/category">
+                    Category Management
+                  </NavLink>
+                </NavItem>
+                <NavLink tag={RRNavLink} to="/userProfiles">
+                  User Profiles
+                </NavLink>
               </>
             )}
           </Nav>
