@@ -60,6 +60,7 @@ const UserProfilesList = () => {
               userTypes={userTypes}
               updateCurrentUserType={updateCurrentUserType}
               lastAdminStatus={lastAdminStatus}
+              getLastAdminStatus={getLastAdminStatus}
             />
           ))}
         </tbody>

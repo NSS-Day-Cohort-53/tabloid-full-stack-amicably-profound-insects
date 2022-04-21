@@ -13,8 +13,9 @@ const UserProfileListItem = ({
   updateCurrentUserType,
   userTypes,
   lastAdminStatus,
+  getLastAdminStatus,
 }) => {
-  const [editedProfile, setEditedProfile] = useState(profile);
+  const [editedProfile, setEditedProfile] = useState({ ...profile });
 
   const history = useHistory();
 
@@ -31,6 +32,7 @@ const UserProfileListItem = ({
       window.alert("Cannot deactivate last admin");
     } else {
       deactivateUserProfile(profile).then(() => {
+        getLastAdminStatus();
         getProfiles();
         handleClose();
       });
@@ -38,11 +40,16 @@ const UserProfileListItem = ({
   };
 
   const editUserType = (event) => {
-    changeUserType(editedProfile).then(() => {
-      updateCurrentUserType();
-      getProfiles();
-      handleCloseEditModal();
-    });
+    if (lastAdminStatus && profile.userTypeId === 1) {
+      window.alert("Cannot deactivate last admin");
+    } else {
+      changeUserType(editedProfile).then(() => {
+        getLastAdminStatus();
+        updateCurrentUserType();
+        getProfiles();
+        handleCloseEditModal();
+      });
+    }
   };
 
   return (
@@ -110,17 +117,31 @@ const UserProfileListItem = ({
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={handleCloseEditModal}>
-              Cancel
-            </Button>
-            <Button
-              color="danger"
-              onClick={() => {
-                editUserType();
-              }}
-            >
-              Save
-            </Button>
+            <div>
+              {lastAdminStatus && profile.userTypeId === 1 ? (
+                <p className="text-danger">
+                  This user is the last admin. They cannot be demoted.
+                </p>
+              ) : (
+                ""
+              )}
+            </div>
+            <div>
+              <Button color="secondary" onClick={handleCloseEditModal}>
+                Cancel
+              </Button>
+              <Button
+                color="primary"
+                disabled={
+                  lastAdminStatus && profile.userTypeId === 1 ? true : false
+                }
+                onClick={() => {
+                  editUserType();
+                }}
+              >
+                Save
+              </Button>
+            </div>
           </ModalFooter>
         </Modal>
 
@@ -165,7 +186,6 @@ const UserProfileListItem = ({
             ) : (
               ""
             )}
-
             <Button color="secondary" onClick={handleClose}>
               Cancel
             </Button>
