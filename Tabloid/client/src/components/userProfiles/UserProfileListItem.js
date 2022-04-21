@@ -27,10 +27,14 @@ const UserProfileListItem = ({
   const handleShowEditModal = () => setShowEditModal(true);
 
   const deactivate = () => {
-    deactivateUserProfile(profile).then(() => {
-      getProfiles();
-      handleClose();
-    });
+    if (lastAdminStatus && profile.userTypeId === 1) {
+      window.alert("Cannot deactivate last admin");
+    } else {
+      deactivateUserProfile(profile).then(() => {
+        getProfiles();
+        handleClose();
+      });
+    }
   };
 
   const editUserType = (event) => {
