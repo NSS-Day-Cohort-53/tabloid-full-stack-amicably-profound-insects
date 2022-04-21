@@ -34,10 +34,14 @@ export default function Header({ isLoggedIn }) {
                 </NavItem>
                 <NavLink href="/posts">Posts</NavLink>
                 <NavItem>
-                  <NavLink tag={RRNavLink} to="/tag">
-                    Tag Management
-                  </NavLink>
-                </NavItem>
+              <NavLink tag={RRNavLink} to="/tag">Tag Management</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to="/category">Category Management</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to="/reaction/add">Add Reaction</NavLink>
+            </NavItem>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/category">
                     Category Management
