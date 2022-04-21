@@ -273,6 +273,26 @@ namespace Tabloid.Repositories
             }
         }
 
+        public void ChangeUserType(UserProfile profile)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"UPDATE UserProfile
+                                                SET UserTypeId = @userTypeId
+                                                WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@id", profile.Id);
+                    cmd.Parameters.AddWithValue("@userTypeId", profile.UserTypeId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public List<UserType> GetUserTypes()
         {
             using (var conn = Connection)
