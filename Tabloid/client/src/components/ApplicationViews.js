@@ -12,7 +12,6 @@ import {CategoryList} from "./CategoryList"
 import {CategoryForm} from "./CategoryForm"
 import {CategoryEditForm} from "./CategoryEditForm"
 import {AddReaction} from "./Reactions/AddReaction"
-import { ReactionList } from "./Reactions/ReactionList";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
