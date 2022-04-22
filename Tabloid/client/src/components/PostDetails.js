@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { GetPostById } from "../modules/postManager";
+import { Card, CardBody } from "reactstrap";
+import { Link } from "react-router-dom";
 
 export const PostDetails = () => {
   const [post, setPosts] = useState({});
@@ -18,32 +21,27 @@ export const PostDetails = () => {
   }, []);
 
   return (
-    <div class="container pt-5">
-      <div class="post">
-        <section class="px-3">
-          <div class="row justify-content-between">
-            <p class="text-secondary">
-              Written by {p.userProfile?.displayName}
-            </p>
-
-            <p class="text-black-50">Published on {p.publishDateTime}</p>
-          </div>
-        </section>
-        <hr />
-        {p.ImageLocation ? (
-          <section class="row justify-content-center">
-            <div>
-              <img src="p.ImageLocation" />
-            </div>
-          </section>
-        ) : (
-          ""
-        )}
-
-        <section class="row post__content">
-          <p class="col-sm-12 mt-5">{p.content}</p>
-        </section>
-      </div>
+    <div>
+      <Card>
+        <p>
+          <strong>Title: {post.title}</strong>
+        </p>
+        <p>Posted by: {post.userProfile?.displayName}</p>
+        <CardBody>
+          {post.imageLocation !== null ? (
+            <img src={post.imageLocation} alt="header" />
+          ) : (
+            ""
+          )}
+          <p />
+          <p>{post.content}</p>
+        </CardBody>
+        <p>Published On: {post.publishDateTime}</p>
+        {/* <Button>
+          <Link to={`/posts/newComment/${post.id}`}>Add a comment</Link>
+        </Button> */}
+      </Card>
     </div>
   );
 };
+export default PostDetails;

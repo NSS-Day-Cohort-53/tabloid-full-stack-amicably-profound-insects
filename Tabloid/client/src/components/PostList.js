@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
-
+  const history = useHistory();
   const getPosts = () => {
     GetAllPublishedPosts().then((posts) => setPosts(posts));
   };
