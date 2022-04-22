@@ -13,9 +13,6 @@ import { CategoryList } from "./CategoryList";
 import { CategoryForm } from "./CategoryForm";
 import { CategoryEditForm } from "./CategoryEditForm";
 import { PostDetails } from "./PostDetails";
-import { CategoryList } from "./CategoryList";
-import { CategoryForm } from "./CategoryForm";
-import { CategoryEditForm } from "./CategoryEditForm";
 import { AddReaction } from "./Reactions/AddReaction";
 
 export default function ApplicationViews({ isLoggedIn }) {
