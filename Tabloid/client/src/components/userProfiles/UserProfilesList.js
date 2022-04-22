@@ -4,6 +4,7 @@ import { Table } from "reactstrap";
 import {
   getAllUserProfiles,
   getAllUserTypes,
+  checkIfLastAdmin,
 } from "../../modules/UserProfileManager";
 import UserProfileListItem from "./UserProfileListItem";
 import { UserTypeContext } from "./UserTypeProvider";
@@ -11,6 +12,7 @@ import { UserTypeContext } from "./UserTypeProvider";
 const UserProfilesList = () => {
   const [profiles, setProfiles] = useState([]);
   const [userTypes, setUserTypes] = useState([]);
+  const [lastAdminStatus, setLastAdminStatus] = useState();
   const { currentUserType, updateCurrentUserType } =
     useContext(UserTypeContext);
 
@@ -22,10 +24,17 @@ const UserProfilesList = () => {
     getAllUserTypes().then((types) => setUserTypes(types));
   };
 
+  const getLastAdminStatus = () => {
+    checkIfLastAdmin().then((status) =>
+      setLastAdminStatus(status.lastAdminStatus)
+    );
+  };
+
   useEffect(() => {
     getProfiles();
     getUserTypes();
     updateCurrentUserType();
+    getLastAdminStatus();
   }, []);
 
   return (
@@ -50,6 +59,8 @@ const UserProfilesList = () => {
               currentUserType={currentUserType}
               userTypes={userTypes}
               updateCurrentUserType={updateCurrentUserType}
+              lastAdminStatus={lastAdminStatus}
+              getLastAdminStatus={getLastAdminStatus}
             />
           ))}
         </tbody>

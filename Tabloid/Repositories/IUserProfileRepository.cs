@@ -5,6 +5,7 @@ namespace Tabloid.Repositories
 {
     public interface IUserProfileRepository
     {
+        bool CheckIfLastAdmin();
         void ChangeUserType(UserProfile profile);
         List<UserType> GetUserTypes();
         List<UserProfile> GetDeactivatedUserProfiles();

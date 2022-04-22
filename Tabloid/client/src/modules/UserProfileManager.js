@@ -1,4 +1,4 @@
-import { getToken } from "./authManager";
+import { getToken, logout } from "./authManager";
 
 const baseUrl = "/api/userprofile";
 
@@ -94,6 +94,8 @@ export const getCurrentUserType = () => {
     }).then((res) => {
       if (res.ok) {
         return res.json();
+      } else if (res.status === 404) {
+        return res.status;
       } else {
         throw new Error(
           "An unknown error occurred while trying to get the current user's type."
@@ -124,7 +126,7 @@ export const getAllUserProfilesDeactivated = () => {
 
 export const changeUserType = (profile) => {
   return getToken().then((token) => {
-    return fetch(`${baseUrl}/edit/${profile.id}`, {
+    return fetch(`${baseUrl}/usertype/${profile.id}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -156,6 +158,25 @@ export const getAllUserTypes = () => {
       } else {
         throw new Error(
           "An unknown error occurred while trying to get user types."
+        );
+      }
+    });
+  });
+};
+
+export const checkIfLastAdmin = (id) => {
+  return getToken().then((token) => {
+    return fetch(`${baseUrl}/lastadmincheck`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error(
+          "An unknown error occurred while trying to get a check for admins status."
         );
       }
     });

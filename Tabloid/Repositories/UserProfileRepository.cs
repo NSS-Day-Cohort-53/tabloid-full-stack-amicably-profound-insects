@@ -293,6 +293,41 @@ namespace Tabloid.Repositories
             }
         }
 
+        public bool CheckIfLastAdmin()
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT COUNT(Id) AS AdminCount
+                                              FROM UserProfile
+                                             WHERE UserTypeId = 1 AND IsDeactivated = 0";
+
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        var adminCount = reader.GetInt32(reader.GetOrdinal("AdminCount"));
+                        if (adminCount <= 1)
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        return true;
+                    }
+
+                }
+            }
+        }
+
         public List<UserType> GetUserTypes()
         {
             using (var conn = Connection)
