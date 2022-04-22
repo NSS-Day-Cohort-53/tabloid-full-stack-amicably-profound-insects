@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { GetPostById } from "../modules/postManager";
 import { Card, CardBody } from "reactstrap";
-import { Link } from "react-router-dom";
 
 export const PostDetails = () => {
   const [post, setPosts] = useState({});
@@ -13,7 +12,7 @@ export const PostDetails = () => {
   useEffect(() => {
     GetPostById(id).then((resp2) => {
       if (resp2 === 404) {
-        history.push("/posts/${p.id}/");
+        history.push("posts/details/unknown");
       } else {
         setPosts(resp2);
       }
@@ -37,9 +36,6 @@ export const PostDetails = () => {
           <p>{post.content}</p>
         </CardBody>
         <p>Published On: {post.publishDateTime}</p>
-        {/* <Button>
-          <Link to={`/posts/newComment/${post.id}`}>Add a comment</Link>
-        </Button> */}
       </Card>
     </div>
   );
