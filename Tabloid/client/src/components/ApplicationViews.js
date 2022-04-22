@@ -3,14 +3,20 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
+import TagList from "./tags/TagList";
+import { TagAddForm } from "./tags/TagAddForm";
 import PostList from "./PostList";
-import TagList from "./TagList";
 import UserProfilesList from "./userProfiles/UserProfilesList";
+import UserProfilesListDeactivated from "./userProfiles/UserProfilesListDeactivated";
 import UserProfileDetails from "./userProfiles/UserProfileDetails";
 import { CategoryList } from "./CategoryList";
 import { CategoryForm } from "./CategoryForm";
 import { CategoryEditForm } from "./CategoryEditForm";
 import { PostDetails } from "./PostDetails";
+import { CategoryList } from "./CategoryList";
+import { CategoryForm } from "./CategoryForm";
+import { CategoryEditForm } from "./CategoryEditForm";
+import { AddReaction } from "./Reactions/AddReaction";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -27,8 +33,21 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/tag" exact>
           {isLoggedIn ? <TagList /> : <Redirect to="/login" />}
         </Route>
+
+        <Route path="/tag/add" exact>
+          {isLoggedIn ? <TagAddForm /> : <Redirect to="/login" />}
+        </Route>
+
         <Route exact path="/userprofiles">
           {isLoggedIn ? <UserProfilesList /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route exact path="/userprofiles/deactivated">
+          {isLoggedIn ? (
+            <UserProfilesListDeactivated />
+          ) : (
+            <Redirect to="/login" />
+          )}
         </Route>
 
         <Route path="/userprofiles/details/:id(\d+)">
@@ -47,6 +66,10 @@ export default function ApplicationViews({ isLoggedIn }) {
         </Route>
         <Route path="/category/:categoryId(\d+)">
           {isLoggedIn ? <CategoryEditForm /> : <Redirect to="/login" />}
+        </Route>
+
+        <Route path="/reaction/add">
+          {isLoggedIn ? <AddReaction /> : <Redirect to="/login" />}
         </Route>
 
         <Route path="/login">
