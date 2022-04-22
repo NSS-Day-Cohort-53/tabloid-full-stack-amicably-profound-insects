@@ -9,10 +9,11 @@ import PostList from "./PostList";
 import UserProfilesList from "./userProfiles/UserProfilesList";
 import UserProfilesListDeactivated from "./userProfiles/UserProfilesListDeactivated";
 import UserProfileDetails from "./userProfiles/UserProfileDetails";
-import {CategoryList} from "./CategoryList"
-import {CategoryForm} from "./CategoryForm"
-import {CategoryEditForm} from "./CategoryEditForm"
-import {AddReaction} from "./Reactions/AddReaction"
+import { CategoryList } from "./CategoryList";
+import { CategoryForm } from "./CategoryForm";
+import { CategoryEditForm } from "./CategoryEditForm";
+import { PostDetails } from "./PostDetails";
+import { AddReaction } from "./Reactions/AddReaction";
 
 export default function ApplicationViews({ isLoggedIn }) {
   return (
@@ -50,6 +51,10 @@ export default function ApplicationViews({ isLoggedIn }) {
           {isLoggedIn ? <UserProfileDetails /> : <Redirect to="/login" />}
         </Route>
 
+        <Route path="/posts/details/:id(\d+)">
+          {isLoggedIn ? <PostDetails /> : <Redirect to="/login" />}
+        </Route>
+
         <Route exact path="/category">
           {isLoggedIn ? <CategoryList /> : <Redirect to="/login" />}
         </Route>
@@ -59,7 +64,7 @@ export default function ApplicationViews({ isLoggedIn }) {
         <Route path="/category/:categoryId(\d+)">
           {isLoggedIn ? <CategoryEditForm /> : <Redirect to="/login" />}
         </Route>
-        
+
         <Route path="/reaction/add">
           {isLoggedIn ? <AddReaction /> : <Redirect to="/login" />}
         </Route>

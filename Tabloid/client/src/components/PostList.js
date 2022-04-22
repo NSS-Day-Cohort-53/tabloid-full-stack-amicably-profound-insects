@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { GetAllPublishedPosts } from "../modules/postManager";
+import { Link, useHistory } from "react-router-dom";
 
 const PostList = () => {
   const [posts, setPosts] = useState([]);
-
+  const history = useHistory();
   const getPosts = () => {
     GetAllPublishedPosts().then((posts) => setPosts(posts));
   };
@@ -23,13 +24,20 @@ const PostList = () => {
         </tr>
       </thead>
       <tbody>
-        {posts.map((p) => (
-          <tr>
-            <td>{p.title}</td>
-            <td>{p.userProfile?.fullName}</td>
-            <td>{p.category?.name}</td>
-          </tr>
-        ))}
+        {posts.map((p) => {
+          return (
+            <tr>
+              <td>{p.title}</td>
+              <td>{p.userProfile?.fullName}</td>
+              <td>{p.category?.name}</td>
+              <td>
+                <Link onClick={() => history.push(`/posts/details/${p.id}`)}>
+                  Details
+                </Link>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
